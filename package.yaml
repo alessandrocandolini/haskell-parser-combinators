@@ -1,0 +1,48 @@
+name:                haskell-parser-combinators
+version:             0.1.0.0
+
+dependencies:
+- base >= 4.7 && < 5
+- text
+- containers
+
+default-extensions:
+- OverloadedStrings
+
+ghc-options:
+  - -Wall
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wredundant-constraints
+
+library:
+  source-dirs: src
+
+executables:
+  haskell-parser-combinators-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-parser-combinators
+
+tests:
+  haskell-parser-combinators-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-parser-combinators
+    - hspec
+    - hspec-discover
+    - QuickCheck
+
+
+verbatim:
+  cabal-version: 3.0
