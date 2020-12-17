@@ -8,14 +8,10 @@ newtype Parser s m a = Parser
   }
 
 pfilter :: MonadPlus m => (a -> Bool) -> Parser s m a -> Parser s m a
-pfilter f (Parser p) = Parser p'
-  where
-    p' s = mfilter (f . snd) (p s)
+pfilter f (Parser p) = Parser $ \s -> mfilter (f . snd) (p s)
 
 instance Functor m => Functor (Parser s m) where
-  fmap f (Parser p) = Parser p'
-    where
-      p' s = fmap (fmap f) (p s)
+  fmap f (Parser p) = Parser $ \s -> fmap (fmap f) (p s)
 
 instance Monad m => Applicative (Parser s m) where
   pure a = Parser $ \s -> pure (s, a)
@@ -29,15 +25,3 @@ instance Monad m => Applicative (Parser s m) where
 instance (Monad m, Alternative m) => Alternative (Parser s m) where
   empty = Parser $ const empty
   (Parser p) <|> (Parser q) = Parser $ \s -> p s <|> q s
-
-stupidParser :: Parser String Maybe Char
-stupidParser = Parser p
-  where
-    p [] = Nothing
-    p (x : xs) = Just (xs, x)
-
-charParser :: Char -> Parser String Maybe Char
-charParser c = pfilter (== c) stupidParser
-
-stringParser :: String -> Parser String Maybe String
-stringParser = traverse charParser

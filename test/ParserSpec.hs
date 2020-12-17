@@ -9,24 +9,6 @@ import Test.QuickCheck.Property
 
 spec :: Spec
 spec = describe "Parser" $ do
-  describe "stupidParser" $ do
-    prop "should fail to parse the input if and only if the input is the empty string" $
-      \s -> isNothing (runParser stupidParser s) == null s
-
-    prop "when parsing a non-empty string should always parse successfully the first character" $
-      \c s -> runParser stupidParser (c : s) == Just (s, c)
-
-  describe "charParser" $ do
-    prop "should always parse successfully every non-empty string starting with the char that the parser is capable of parsing" $
-      \c s -> runParser (charParser c) (c : s) == Just (s, c)
-
-    prop "should always fail to parse every string that is either empty or it does not start with the char the parser can parsr" $
-      \c s -> (null s) || (head s /= c) ==> isNothing $ runParser (charParser c) s
-
-  describe "stringParser" $ do
-    prop "should always parse successfully every non-empty string starting with the string that the parser is capable of parsing" $
-      \s s' -> runParser (stringParser s) (s ++ s') == Just (s', s)
-
   describe "Filterable parser" $ do
     prop "pfilter should behave like the original parser when the predicate is identically True" $
       \s (Fun _ p) ->
@@ -50,7 +32,7 @@ spec = describe "Parser" $ do
             filteredParser = pfilter (const False) originalParser
          in isNothing (runParser filteredParser s)
 
-  describe "Proof that parser is functor" $ do
+  describe "Laws of functor" $ do
     prop "identity law: fmap id == id" $
       \s (Fun _ p) ->
         let originalParser :: Parser String Maybe Integer
@@ -73,7 +55,7 @@ spec = describe "Parser" $ do
             p'' = fmap (f :: Integer -> String) p'
          in null (runParser p' s) == null (runParser p'' s)
 
-  describe "Proof that parser is applicative" $ do
+  describe "(Some) laws of applicative" $ do
     prop "identity" $
       \s (Fun _ p) ->
         let p' :: Parser String Maybe Integer

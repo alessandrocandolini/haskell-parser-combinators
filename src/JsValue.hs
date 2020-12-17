@@ -3,6 +3,7 @@ module JsValue where
 import Control.Applicative
 import Data.Map (Map)
 import Parser
+import SimpleParsers
 
 data JsValue
   = JsNull
