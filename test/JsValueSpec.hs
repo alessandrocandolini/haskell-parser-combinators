@@ -1,14 +1,15 @@
 module JsValueSpec where
 
-import Lib
+import JsValue
+import Parser
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck.Property
 
 spec :: Spec
-spec = describe "Simple test" $ do
-  it "example-based unit test" $
-    1 `shouldBe` 1
+spec = describe "JsValueParser test" $ do
+  it "should parse null" $
+    runParser jsValueParser "null" `shouldBe` Just ("", JsNull)
 
-  prop "property-based unit test" $
-    \l -> reverse (reverse l) == (l :: [Int])
+  it "should parse true" $
+    runParser jsValueParser "true" `shouldBe` Just ("", JsBool True)
