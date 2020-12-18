@@ -10,20 +10,20 @@ import Test.QuickCheck.Property
 spec :: Spec
 spec = describe "Parser" $ do
   describe "Filterable parser" $ do
-    prop "pfilter should behave like the original parser when the predicate is identically True" $
+    prop "pfilter should generate a parser that behaves exactly like the original one when the predicate is identically True" $
       \s (Fun _ p) ->
-        let originalParser :: Parser String Maybe Integer
-            originalParser = Parser p
-            filteredParser = pfilter (const True) originalParser
-         in runParser originalParser s == runParser filteredParser s
+        let p' :: Parser String Maybe Integer
+            p' = Parser p
+            p'' = pfilter (const True) p'
+         in runParser p'' s == runParser p' s
 
     prop "pfilter should be idempotent" $
       \s (Fun _ p) (Fun _ f) ->
-        let originalParser :: Parser String Maybe Integer
-            originalParser = Parser p
-            p' = pfilter (f :: Integer -> Bool) originalParser
-            p'' = pfilter f p'
-         in runParser p' s == runParser p'' s
+        let p' :: Parser String Maybe Integer
+            p' = Parser p
+            p'' = pfilter (f :: Integer -> Bool) p'
+            p''' = pfilter f p''
+         in runParser p''' s == runParser p'' s
 
     prop "pfiler should always fail if predicate is identically False" $
       \s (Fun _ p) ->
