@@ -4,7 +4,9 @@ import Data.Maybe
 import Parser
 import Test.Hspec
 import Test.Hspec.QuickCheck
+import Test.QuickCheck.Arbitrary
 import Test.QuickCheck.Function
+import Test.QuickCheck.Gen
 import Test.QuickCheck.Property
 
 spec :: Spec
@@ -27,18 +29,18 @@ spec = describe "Parser" $ do
 
     prop "pfiler should always fail if predicate is identically False" $
       \s (Fun _ p) ->
-        let originalParser :: Parser String Maybe Integer
-            originalParser = Parser p
-            filteredParser = pfilter (const False) originalParser
-         in isNothing (runParser filteredParser s)
+        let p' :: Parser String Maybe Integer
+            p' = Parser p
+            p'' = pfilter (const False) p'
+         in isNothing (runParser p'' s)
 
-  describe "Laws of functor" $ do
+  describe "Functor laws for parsers" $ do
     prop "identity law: fmap id == id" $
       \s (Fun _ p) ->
-        let originalParser :: Parser String Maybe Integer
-            originalParser = Parser p
-            mappedParser = fmap id originalParser
-         in runParser originalParser s == runParser mappedParser s
+        let p' :: Parser String Maybe Integer
+            p' = Parser p
+            p'' = fmap id p'
+         in runParser p' s == runParser p'' s
 
     prop "composition law: fmap (f . g) == fmap f . fmap g" $
       \s (Fun _ p) (Fun _ f) (Fun _ g) ->
@@ -55,7 +57,7 @@ spec = describe "Parser" $ do
             p'' = fmap (f :: Integer -> String) p'
          in null (runParser p' s) == null (runParser p'' s)
 
-  describe "(Some) laws of applicative" $ do
+  describe "(Some) applicative laws for parsers" $ do
     prop "identity" $
       \s (Fun _ p) ->
         let p' :: Parser String Maybe Integer
