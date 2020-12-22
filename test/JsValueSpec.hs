@@ -9,7 +9,10 @@ import Test.QuickCheck.Property
 spec :: Spec
 spec = describe "JsValueParser test" $ do
   it "should parse null" $
-    runParser jsValueParser "null" `shouldBe` Just ("", JsNull)
+    parseJsValue "null" `shouldBe` (Just JsNull)
 
   it "should parse true" $
-    runParser jsValueParser "true" `shouldBe` Just ("", JsBool True)
+    parseJsValue "true" `shouldBe` Just (JsBool True)
+
+  it "should parse false" $
+    parseJsValue "false" `shouldBe` Just (JsBool False)

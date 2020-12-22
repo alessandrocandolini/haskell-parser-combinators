@@ -25,3 +25,6 @@ jsBoolParser = jsTrueParser <|> jsFalseParser
 
 jsValueParser :: Parser String Maybe JsValue
 jsValueParser = jsNullParser <|> jsBoolParser
+
+parseJsValue :: String -> Maybe JsValue
+parseJsValue = fmap snd . runParser jsValueParser

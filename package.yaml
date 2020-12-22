@@ -14,6 +14,7 @@ ghc-options:
   - -Wincomplete-record-updates
   - -Wincomplete-uni-patterns
   - -Wredundant-constraints
+  - -haddock  
 
 library:
   source-dirs: src

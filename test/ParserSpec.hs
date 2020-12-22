@@ -58,14 +58,14 @@ spec = describe "Parser" $ do
          in null (runParser p' s) == null (runParser p'' s)
 
   describe "(Some) applicative laws for parsers" $ do
-    prop "identity" $
+    prop "identity: pure id <*> p = p" $
       \s (Fun _ p) ->
         let p' :: Parser String Maybe Integer
             p' = Parser p
             p'' = pure id <*> p'
          in runParser p' s == runParser p'' s
 
-    prop "homomorphism" $
+    prop "homomorphism: pure f <*> pure a = pure( f a )" $
       \s (Fun _ f) a ->
         let p' :: Parser String Maybe String
             p' = pure (f :: Integer -> String) <*> pure (a :: Integer)
