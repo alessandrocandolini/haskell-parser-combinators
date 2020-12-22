@@ -31,7 +31,7 @@ jobs:
         stack-version: ${{ matrix.stack }}
         enable-stack: true
 
-    - uses: actions/cache@v1
+    - uses: actions/cache@v2
       name: Cache ~/.stack
       with:
         path: ~/.stack
