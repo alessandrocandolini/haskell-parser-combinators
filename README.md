@@ -1,6 +1,6 @@
 # haskell-parser-combinators
 
-## How to build and run locally
+## How to build and run locally
 
 The project uses the [Haskell tool stack](https://docs.haskellstack.org/en/stable/README/).
 
