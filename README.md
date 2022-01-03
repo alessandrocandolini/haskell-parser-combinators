@@ -16,6 +16,12 @@ which is equivalent to
 ```
 stack build --test
 ```
+To run tests with code coverage
+```
+stack test --coverage
+```
+The command generates A unified textual and HTML report. 
+
 To run the executable,
 ```
 stack exec haskell-parser-combinators-exe
@@ -28,4 +34,5 @@ To run `ghci` (with a version compatible with the resolver) run
 ```
 stack ghci
 ```
+
 For more information, refer to the `stack` official docs.
