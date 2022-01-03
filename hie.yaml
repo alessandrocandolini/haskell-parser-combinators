@@ -6,9 +6,6 @@ cradle:
     - path: "./app/Main.hs"
       component: "haskell-parser-combinators:exe:haskell-parser-combinators-exe"
 
-    - path: "./app/Paths_haskell_toy_example.hs"
-      component: "haskell-parser-combinators:exe:haskell-parser-combinators-exe"
-
     - path: "./test"
       component: "haskell-parser-combinators:test:haskell-parser-combinators-test"
 
