@@ -1,5 +1,7 @@
 # haskell-parser-combinators
 
+[![CI](https://github.com/alessandrocandolini/haskell-parser-combinators/actions/workflows/ci.yml/badge.svg)](https://github.com/alessandrocandolini/haskell-parser-combinators/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/alessandrocandolini/haskell-parser-combinators/branch/main/graph/badge.svg?token=7X7ENTBZQ9)](https://codecov.io/gh/alessandrocandolini/haskell-parser-combinators)
+
 ## How to build and run locally
 
 The project uses the [Haskell tool stack](https://docs.haskellstack.org/en/stable/README/).
