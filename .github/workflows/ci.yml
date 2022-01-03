@@ -7,6 +7,10 @@ on:
     branches: [ main ]
   workflow_dispatch: # enable manual execution
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
@@ -15,8 +19,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        stack: ["2.5.1"]
-        ghc: ["8.10.1"]
+        stack: ["2.7.3"]
+        ghc: ["8.10.7"]
 
     steps:
     - name: Cancel previous runs
@@ -40,8 +44,18 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: |
-        stack test
+        stack test --coverage
 
-    - name: Build artifacts
-      run: |
-        stack build
+    - name: Generate coverage report
+      uses: 8c6794b6/hpc-codecov-action@v2
+      with:
+        target: stack:haskell-parser-combinators-test 
+        out: ./codecov.json  
+        verbose: true 
+
+    - name: Send coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./codecov.json
+        fail_ci_if_error: false # optional (default = false)
+        verbose: true 
