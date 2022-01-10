@@ -46,7 +46,7 @@ jobs:
 
     - name: Run tests with coverage
       run: |
-        stack test --system-ghc --test --coverage
+        stack test --system-ghc --test --coverage --fast
 
     - name: Build
       run: |
